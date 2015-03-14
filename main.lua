@@ -43,17 +43,17 @@ bg4.y = bg4.y + scrollSpeed
  
 -- Estabelece listeners para perceber quando a imagem vai acabar
 -- e mover o fundo de novo.
-if (bg1.y + bg1.contentHeight) &lt -480; then
+if (bg1.y + bg1.contentHeight) >480*4 then
 bg1:translate( 0, -480 )
 end
-if (bg2.y +  bg2.contentHeight) > 480*2 then
+if (bg2.y +  bg2.contentHeight) > 480*3 then
 bg2:translate( 0, -480)
 end
-if (bg3.y +  bg3.contentHeight) > 480*3 then
+if (bg3.y +  bg3.contentHeight) > 480*2 then
 bg3:translate( 0, -480)
 end
-if (bg4.y +  bg4.contentHeight) > 480*4 then
-bg4:translate( 0, -860)
+if (bg4.y +  bg4.contentHeight) > 480 then
+bg4:translate( 0, -480)
 end
 end
  
