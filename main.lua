@@ -8,10 +8,10 @@
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
 --inicializa o módulo de física
-physics =require("physics")
+--physics =require("physics")
 
-physics.start()
-physics.setDrawMode("hybrid")
+--physics.start()
+--physics.setDrawMode("hybrid")
  
 -- Inicializa variáveis de exibição da imagem de fundo em duas variáveis. Inicializa variáveis de movimento do carro
 _W = display.contentWidth; -- Get the width of the screen
@@ -63,15 +63,15 @@ end
 if (bg4.y +  bg4.contentHeight) > 480 then
 bg4:translate( 0, -480)
 end
-local carroHeroi=display.newImage("recursos/carrinho.png", 160,240)
+local carroHeroi=display.newImageRect("carrinho.png", 160,240)
 --physics.addBody( carroHeroi, "static", { friction=0, bounce=0 })
 -- Adiciona botão esquerdo
- local left = display.newImage ("recursos/btn_arrow.jpg")
+ local left = display.newImage ("btn_arrow.jpg")
  left.x = 45; left.y = 475;
  left:scale(0.2,0.2)
  left.rotation = 180;
 -- Adiciona botão direito
- local right = display.newImage ("recursos/btn_arrow.jpg")
+ local right = display.newImage ("btn_arrow.jpg")
  right.x = 120; right.y = 475;
  right:scale(0.2, 0.2)
  -- When left arrow is touched, move character left
@@ -88,7 +88,7 @@ local carroHeroi=display.newImage("recursos/carrinho.png", 160,240)
  
  -- Move carro à direita
  local function moveCarro (event)
- carroHeroi.x = carroHeroi.x + movimentox;
+ carroHeroi:translate( (speed+movimentox),0);
 
  end
   Runtime:addEventListener("enterFrame", moveCarro)
