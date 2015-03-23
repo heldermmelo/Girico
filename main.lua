@@ -8,18 +8,18 @@
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
 --inicializa o módulo de física
---physics =require("physics")
+physics =require("physics")
 
---physics.start()
+physics.start()
 --physics.setDrawMode("hybrid")
  
 -- Inicializa variáveis de exibição da imagem de fundo em duas variáveis. Inicializa variáveis de movimento do carro
 _W = display.contentWidth; -- Get the width of the screen
 _H = display.contentHeight; -- Get the height of the screen
 
-scrollSpeed = 6; -- Set Scroll Speed of background
-speed=0
-movimentox=0;
+scrollSpeed = 6; -- Define a velocidade do background.
+speed=0--define a velocidade com que o carro se move para os lados
+movimentox=0;-- ocarro permanece sem ir para os lados, se nenhum botão é apertado
  
 -- Adiciona primeiro background!
 local bg1 = display.newImageRect("estradaImagem.png", 320, 480)
@@ -51,7 +51,7 @@ bg4.y = bg4.y + scrollSpeed
  
 -- Estabelece listeners para perceber quando a imagem vai acabar
 -- e mover o background para o começo da tela.
-if (bg1.y + bg1.contentHeight) >480*4 then
+if (bg1.y + bg1.contentHeight) >480*4 then
 bg1:translate( 0, -480 )
 end
 if (bg2.y +  bg2.contentHeight) > 480*3 then
@@ -63,8 +63,13 @@ end
 if (bg4.y +  bg4.contentHeight) > 480 then
 bg4:translate( 0, -480)
 end
-local carroHeroi=display.newImageRect("carrinho.png", 160,240)
---physics.addBody( carroHeroi, "static", { friction=0, bounce=0 })
+end
+
+local carroHeroi=display.newImage("carrinho1.png")
+carroHeroi.x = 120
+carroHeroi.y = 360
+
+--Adiciona física, ainda por decidirphysics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
 -- Adiciona botão esquerdo
  local left = display.newImage ("btn_arrow.jpg")
  left.x = 45; left.y = 475;
@@ -74,28 +79,28 @@ local carroHeroi=display.newImageRect("carrinho.png", 160,240)
  local right = display.newImage ("btn_arrow.jpg")
  right.x = 120; right.y = 475;
  right:scale(0.2, 0.2)
- -- When left arrow is touched, move character left
+ -- Quando botão de left é apertado, carro se move à esquerda
  function left:touch()
- movimentox = speed-0.2;
+ movimentox = speed-1;
  
  end
  left:addEventListener("touch",left)
--- When right arrow is touched, move character right
+-- Quando a seta de right é apertada, carro se move à esquerda.
  function right:touch()
- movimentox = speed+0.2;
+ movimentox = speed+1;
  end
  right:addEventListener("touch",right)
  
- -- Move carro à direita
- local function moveCarro (event)
- carroHeroi:translate( (speed+movimentox),0);
+--Função que move o carro
+ local function moveCarro (event)
+carroHeroi.x=carroHeroi.x+movimentox 
 
  end
-  Runtime:addEventListener("enterFrame", moveCarro)
  
+ Runtime:addEventListener("enterFrame", moveCarro) 
  
 
-end
+
 --para o jogador quando nenhum botão estiver sendo apertado!
 local function stop (event)
  if event.phase =="ended" then
@@ -106,3 +111,4 @@ local function stop (event)
   
 -- Create a runtime event to move backgrounds
 Runtime:addEventListener( "enterFrame", move )
+
