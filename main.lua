@@ -19,7 +19,8 @@ _H = display.contentHeight; -- Get the height of the screen
 
 scrollSpeed = 6; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
-movimentox=0;-- ocarro permanece sem ir para os lados, se nenhum botão é apertado
+
+movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
  
 -- Adiciona primeiro background!
 local bg1 = display.newImageRect("estradaImagem.png", 320, 480)
@@ -51,7 +52,9 @@ bg4.y = bg4.y + scrollSpeed
  
 -- Estabelece listeners para perceber quando a imagem vai acabar
 -- e mover o background para o começo da tela.
-if (bg1.y + bg1.contentHeight) >480*4 then
+
+
+if (bg1.y + bg1.contentHeight) >480*4 then
 bg1:translate( 0, -480 )
 end
 if (bg2.y +  bg2.contentHeight) > 480*3 then
@@ -69,7 +72,8 @@ local carroHeroi=display.newImage("carrinho1.png")
 carroHeroi.x = 120
 carroHeroi.y = 360
 
---Adiciona física, ainda por decidirphysics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
+--Adiciona física, ainda por decidir
+physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
 -- Adiciona botão esquerdo
  local left = display.newImage ("btn_arrow.jpg")
  left.x = 45; left.y = 475;
@@ -85,17 +89,29 @@ carroHeroi.y = 360
  
  end
  left:addEventListener("touch",left)
+
+
 -- Quando a seta de right é apertada, carro se move à esquerda.
+ 
  function right:touch()
  movimentox = speed+1;
  end
  right:addEventListener("touch",right)
  
 --Função que move o carro
- local function moveCarro (event)
-carroHeroi.x=carroHeroi.x+movimentox 
 
- end
+ local function moveCarro (event)
+carroHeroi.x=carroHeroi.x+movimentox
+ 
+
+ end function createCoin()
+	coin = display.newCircle( math.random(20,_W-20), -25, math.random(8,14) )
+	coin:setFillColor(math.random(245,255),math.random(210,223),7)
+	coin:setStrokeColor(0,0,0)
+	physics.addBody( coin, "dynamic" )
+	coin.myName = "coin"
+end
+timer.performWithDelay( 800, createCoin, 0 )
  
  Runtime:addEventListener("enterFrame", moveCarro) 
  
