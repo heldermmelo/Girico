@@ -16,7 +16,7 @@ physics.start()physics.setGravity(0,0)
 _W = display.contentWidth; -- Get the width of the screen
 _H = display.contentHeight; -- Get the height of the screen
 
-scrollSpeed = 60; -- Define a velocidade do background.
+scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
@@ -158,10 +158,19 @@ end
 local createFuel = function()
 	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
-	fuel:setLinearVelocity(0, scrollSpeed*100)
+	fuel:setLinearVelocity(0, scrollSpeed*30)
 	fuel.myName="fuel"    return fuel 	
 end
-timer.performWithDelay( 800, createFuel, 0 )
+timer.performWithDelay( 800, createFuel, 0 )
+local createZumbi = function()
+	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	physics.addBody( zumbi, "cinematic",{ density=0, friction=0, bounce=0.5} )
+	zumbi:setLinearVelocity(0, scrollSpeed*30)
+	zumbi.myName="zumbi"
+    return zumbi	
+end
+
+timer.performWithDelay( 800, createZumbi, 0 )
   -- e se bater em algum obstaculo? local function onCollision( event )
     if ( event.phase == "began" ) then
         if(event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") then
