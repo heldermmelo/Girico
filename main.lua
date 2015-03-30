@@ -20,7 +20,41 @@ scrollSpeed = 60; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
- 
+  local scoreText = display.newText( "Gasolina", 250, 90, native.systemFontBold, 32 )
+gasolina = 60.00
+
+local function lerp( v0, v1, t )
+    return v0 + t * (v1 - v0)
+end
+
+local function showScore( target, value, duration, fps )
+    if value == 0 then
+        return
+    end
+    newScore = 60
+    local passes = duration
+    local increment = lerp( 0, value, 1/passes )
+
+    local count = 0
+    
+	local function updateText()
+        if count < passes then
+            newScore = newScore - increment
+            target.text = string.format( "%07d", newScore )
+            count = count + 1
+        else
+            target.text = string.format( "%07d", value )
+            Runtime:removeEventListener( "enterFrame", updateText )
+        end
+    end
+
+    Runtime:addEventListener( "enterFrame", updateText )
+end
+
+local duration = 2000
+local fps = 30
+showScore( scoreText, gasolina, duration, fps )
+
 -- Adiciona primeiro background!
 local bg1 = display.newImageRect("estradaImagem.png", 320, 480)
 bg1.anchorX=0.0;
@@ -125,14 +159,13 @@ local createFuel = function()
 	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
 	fuel:setLinearVelocity(0, scrollSpeed*100)
-	fuel.myName="fuel"    return fuel 
-		
+	fuel.myName="fuel"    return fuel 	
 end
 timer.performWithDelay( 800, createFuel, 0 )
   -- e se bater em algum obstaculo? local function onCollision( event )
     if ( event.phase == "began" ) then
         if(event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") then
-			event.object2:removeSelf();
+			event.object2:removeSelf();			newScore=newScore+2
         end
     end end
 
@@ -151,4 +184,4 @@ local function stop (event)
   
 -- Cria um evento em tempo de execução para mover o background
 Runtime:addEventListener( "enterFrame", move )
-
+
