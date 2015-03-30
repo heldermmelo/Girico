@@ -8,16 +8,15 @@
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
 --inicializa o módulo de física
-physics =require("physics")
-
-physics.start()
+physics =require("physics")
+physics.start()physics.setGravity(0,0)
 --physics.setDrawMode("hybrid")
  
 -- Inicializa variáveis de exibição da imagem de fundo em duas variáveis. Inicializa variáveis de movimento do carro
 _W = display.contentWidth; -- Get the width of the screen
 _H = display.contentHeight; -- Get the height of the screen
 
-scrollSpeed = 6; -- Define a velocidade do background.
+scrollSpeed = 60; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
@@ -68,33 +67,42 @@ bg4:translate( 0, -480)
 end
 end
 
+
 local carroHeroi=display.newImage("carrinho1.png")
 carroHeroi.x = 120
 carroHeroi.y = 360
 
---Adiciona física, ainda por decidir
+
+--Adiciona física
 physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
+
+
 -- Adiciona botão esquerdo
  local left = display.newImage ("btn_arrow.jpg")
  left.x = 45; left.y = 475;
  left:scale(0.2,0.2)
  left.rotation = 180;
+
+
+
 -- Adiciona botão direito
  local right = display.newImage ("btn_arrow.jpg")
  right.x = 120; right.y = 475;
  right:scale(0.2, 0.2)
+
+
+
  -- Quando botão de left é apertado, carro se move à esquerda
  function left:touch()
- movimentox = speed-1;
- 
- end
+ movimentox = speed-3;
+  end
  left:addEventListener("touch",left)
 
 
 -- Quando a seta de right é apertada, carro se move à esquerda.
  
  function right:touch()
- movimentox = speed+1;
+ movimentox = speed+3;
  end
  right:addEventListener("touch",right)
  
@@ -103,28 +111,44 @@ physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
  local function moveCarro (event)
 carroHeroi.x=carroHeroi.x+movimentox
  
-
- end function createCoin()
-	coin = display.newCircle( math.random(20,_W-20), -25, math.random(8,14) )
-	coin:setFillColor(math.random(245,255),math.random(210,223),7)
-	coin:setStrokeColor(0,0,0)
-	physics.addBody( coin, "dynamic" )
-	coin.myName = "coin"
 end
-timer.performWithDelay( 800, createCoin, 0 )
+ 
+ --- estabelecendo a aparição e movimento de combustível 
+ 
+
+
+
+
+
+--physics.addBody( ground, "static", { friction=0.5, bounce=0.3 } )
+local createFuel = function()
+	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
+	fuel:setLinearVelocity(0, scrollSpeed*100)
+	
+    return fuel 
+		
+end
+--Runtime:addEventListener( "enterFrame", createFuel )
+ 
+timer.performWithDelay( 800, createFuel, 0 )
+
+
+
+--Runtime:addEventListener("enterFrame", moveFuel)
  
  Runtime:addEventListener("enterFrame", moveCarro) 
  
 
 
---para o jogador quando nenhum botão estiver sendo apertado!
+--pára o jogador quando nenhum botão estiver sendo apertado!
 local function stop (event)
- if event.phase =="ended" then
- movimentox = 0;
- end
+ 		if event.phase =="ended" then
+		 movimentox = 0;
+		 end
  end
  Runtime:addEventListener("touch", stop )
   
--- Create a runtime event to move backgrounds
+-- Cria um evento em tempo de execução para mover o background
 Runtime:addEventListener( "enterFrame", move )
 
