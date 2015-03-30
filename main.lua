@@ -71,7 +71,7 @@ end
 local carroHeroi=display.newImage("carrinho1.png")
 carroHeroi.x = 120
 carroHeroi.y = 360
-
+carroHeroi.myName="carroHeroi"
 
 --Adiciona física
 physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
@@ -120,24 +120,24 @@ end
 
 
 
---physics.addBody( ground, "static", { friction=0.5, bounce=0.3 } )
+
 local createFuel = function()
 	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
 	fuel:setLinearVelocity(0, scrollSpeed*100)
-	
-    return fuel 
+	fuel.myName="fuel"    return fuel 
 		
-end
---Runtime:addEventListener( "enterFrame", createFuel )
- 
-timer.performWithDelay( 800, createFuel, 0 )
+end
+timer.performWithDelay( 800, createFuel, 0 )
+  -- e se bater em algum obstaculo? local function onCollision( event )
+    if ( event.phase == "began" ) then
+        if(event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") then
+			event.object2:removeSelf();
+        end
+    end end
 
-
-
---Runtime:addEventListener("enterFrame", moveFuel)
- 
- Runtime:addEventListener("enterFrame", moveCarro) 
+Runtime:addEventListener( "collision", onCollision )
+ --move o carro Runtime:addEventListener("enterFrame", moveCarro) 
  
 
 
