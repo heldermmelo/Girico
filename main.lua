@@ -102,7 +102,7 @@ end
 end
 
 
-local carroHeroi=display.newImage("carrinho1.png")
+local carroHeroi=display.newImage("carrinho.png")
 carroHeroi.x = 120
 carroHeroi.y = 360
 carroHeroi.myName="carroHeroi"
@@ -158,14 +158,14 @@ end
 local createFuel = function()
 	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
-	fuel:setLinearVelocity(0, scrollSpeed*30)
+	fuel:setLinearVelocity(0, scrollSpeed*15)
 	fuel.myName="fuel"    return fuel 	
 end
 timer.performWithDelay( 800, createFuel, 0 )
 local createZumbi = function()
 	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
-	physics.addBody( zumbi, "cinematic",{ density=0, friction=0, bounce=0.5} )
-	zumbi:setLinearVelocity(0, scrollSpeed*30)
+	physics.addBody( zumbi, "cinematic",{ density=10, friction=9, bounce=0.5} )
+	zumbi:setLinearVelocity(0, scrollSpeed*15)
 	zumbi.myName="zumbi"
     return zumbi	
 end
