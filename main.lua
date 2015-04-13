@@ -17,7 +17,8 @@ physics.setGravity(0,0)
 -- Inicializa variáveis de exibição da imagem de fundo em duas variáveis. Inicializa variáveis de movimento do carro
 _W = display.contentWidth; -- Get the width of the screen
 _H = display.contentHeight; -- Get the height of the screen
---carrega música backgroundMusic = audio.loadStream("04.mp3")
+--carrega música
+ backgroundMusic = audio.loadStream("04.mp3")
 	backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }  )
 scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
@@ -96,16 +97,16 @@ physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
 
 -- Adiciona botão esquerdo
  local left = display.newImage ("btn_arrow.jpg")
- left.x = 45; left.y = 475;
- left:scale(0.2,0.2)
+ left.x = 45; left.y = 430;
+ left:scale(0.4,0.4)
  left.rotation = 180;
 
 
 
 -- Adiciona botão direito
  local right = display.newImage ("btn_arrow.jpg")
- right.x = 120; right.y = 475;
- right:scale(0.2, 0.2)
+ right.x = 290; right.y = 430;
+ right:scale(0.4, 0.4)
 
 
 
@@ -147,7 +148,8 @@ local createFuel = function()
 end
 
 timer.performWithDelay( 800, createFuel, 0 )
---Cria zumbislocal createZumbi = function(event)
+--Cria zumbis
+local createZumbi = function(event)
 	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( zumbi, "cinematic",{ density=2, friction=0, bounce=1} )
 	zumbi:setLinearVelocity(0, scrollSpeed*15)
@@ -156,7 +158,8 @@ timer.performWithDelay( 800, createFuel, 0 )
 end
 
 timer.performWithDelay( 800, createZumbi, 0 )
---Cria pobres inocentes local createInocente = function(event)
+--Cria pobres inocentes 
+local createInocente = function(event)
 	inocente = display.newImage( "chibi.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( inocente, "cinematic",{ density=2, friction=0, bounce=1} )
 	inocente:setLinearVelocity(0, scrollSpeed*15)
@@ -197,9 +200,16 @@ Runtime:addEventListener( "enterFrame", move )
  	if score == 0
  		
  		then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 
-		 scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )	 		scrollSpeed=0 		 gameIsActive = false  
-  		physics.pause()  		audio.stop(backgroundMusicChannel)
+		 scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )	
+ 		scrollSpeed=0
+ 		 gameIsActive = false  
+  		physics.pause()
+  		audio.stop(backgroundMusicChannel)
+
 		
 		 end
- end		Runtime:addEventListener("enterFrame", gameOvo)
- 
+ end		
+Runtime:addEventListener("enterFrame", gameOvo)
+
+
+ 
