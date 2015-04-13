@@ -17,14 +17,16 @@ physics.setGravity(0,0)
 -- Inicializa variáveis de exibição da imagem de fundo em duas variáveis. Inicializa variáveis de movimento do carro
 _W = display.contentWidth; -- Get the width of the screen
 _H = display.contentHeight; -- Get the height of the screen
-
+--carrega música backgroundMusic = audio.loadStream("04.mp3")
+	backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }  )
 scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
- --Novo Marcador de combustívelscore = 60
+ --Novo Marcador de combustível
+score = 60
 
-local scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 20 )
+scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )
 
 scoreTxt.anchorX = 350
 scoreTxt.anchorY = 40
@@ -109,7 +111,7 @@ physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
 
  -- Quando botão de left é apertado, carro se move à esquerda
  function left:touch()
- movimentox = speed-3;
+ movimentox = speed-5;
   end
  left:addEventListener("touch",left)
 
@@ -117,7 +119,7 @@ physics.addBody( carroHeroi, "kinematic", { friction=0, bounce=0 })
 -- Quando a seta de right é apertada, carro se move à esquerda.
  
  function right:touch()
- movimentox = speed+3;
+ movimentox = speed+5;
  end
  right:addEventListener("touch",right)
  
@@ -145,7 +147,7 @@ local createFuel = function()
 end
 
 timer.performWithDelay( 800, createFuel, 0 )
-local createZumbi = function()
+--Cria zumbislocal createZumbi = function(event)
 	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( zumbi, "cinematic",{ density=2, friction=0, bounce=1} )
 	zumbi:setLinearVelocity(0, scrollSpeed*15)
@@ -154,8 +156,14 @@ local createZumbi = function()
 end
 
 timer.performWithDelay( 800, createZumbi, 0 )
-
- 
+--Cria pobres inocentes local createInocente = function(event)
+	inocente = display.newImage( "chibi.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	physics.addBody( inocente, "cinematic",{ density=2, friction=0, bounce=1} )
+	inocente:setLinearVelocity(0, scrollSpeed*15)
+	inocente.myName="inocente"
+    return zumbi	
+end
+ timer.performWithDelay( 800, createInocente, 0 )
  -- e se bater em algum obstaculo?
  local function onCollision( event )
     if ( event.phase == "began" ) then
@@ -170,6 +178,8 @@ Runtime:addEventListener( "collision", onCollision )
  --move o carro
  Runtime:addEventListener("enterFrame", moveCarro) 
  
+ 
+ 	
 
 
 --pára o jogador quando nenhum botão estiver sendo apertado!
@@ -180,6 +190,16 @@ local function stop (event)
  end
  Runtime:addEventListener("touch", stop )
   
--- Cria um evento em tempo de execução para mover o background
-Runtime:addEventListener( "enterFrame", move )
 
+Runtime:addEventListener( "enterFrame", move )
+--encerra o jogo
+ gameOvo=function()
+ 	if score == 0
+ 		
+ 		then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 
+		 scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )	 		scrollSpeed=0 		 gameIsActive = false  
+  		physics.pause()  		audio.stop(backgroundMusicChannel)
+		
+		 end
+ end		Runtime:addEventListener("enterFrame", gameOvo)
+ 
