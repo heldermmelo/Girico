@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 -- Your code here
+
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
 --inicializa o módulo de física
@@ -147,7 +148,7 @@ local createFuel = function()
     return fuel 	
 end
 
-timer.performWithDelay( 800, createFuel, 0 )
+timer.performWithDelay( 1900, createFuel, 0 )
 --Cria zumbis
 local createZumbi = function(event)
 	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
@@ -166,7 +167,7 @@ local createInocente = function(event)
 	inocente.myName="inocente"
     return zumbi	
 end
- timer.performWithDelay( 800, createInocente, 0 )
+ timer.performWithDelay( 5000, createInocente, 0 )
  -- e se bater em algum obstaculo?
  local function onCollision( event )
     if ( event.phase == "began" ) then
