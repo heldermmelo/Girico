@@ -25,17 +25,16 @@ scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
- --Novo Marcador de combustível
-score = 60
+  --Novo Marcador de combustível
+score = display.newRect( 320, 360, 20, 300 )
+score.anchorY=496
+scoreTxt = display.newText( "GAS:", 285,358, "Helvetica", 16 )
 
-scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )
 
-scoreTxt.anchorX = 350
-scoreTxt.anchorY = 40
 
 local function updateScore()
-     score = score - 1
-     scoreTxt.text = string.format("GAS: %d", score)
+     print(score.height)       score.height = score.height - 5
+	   
 end
 
 local scoreTimer = timer.performWithDelay(1000, updateScore, 0)
@@ -173,7 +172,7 @@ end
     if ( event.phase == "began" ) then
         if(event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") then
 			event.object2:removeSelf();
-			score=score+3
+			score.height=score.height+5
         end
     end
  end
@@ -198,10 +197,10 @@ local function stop (event)
 Runtime:addEventListener( "enterFrame", move )
 --encerra o jogo
  gameOvo=function()
- 	if score == 0
+ 	if score.height ==0
  		
  		then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 
-		 scoreTxt = display.newText( "GAS: 60", 320, 480, "Helvetica", 16 )	
+		 	
  		scrollSpeed=0
  		 gameIsActive = false  
   		physics.pause()
