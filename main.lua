@@ -6,6 +6,7 @@
 
 -- Your code here
 
+
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
 --inicializa o módulo de física
@@ -25,7 +26,8 @@ scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
-  --Novo Marcador de combustível
+pontuacao=0
+ --Novo Marcador de combustível
 score = display.newRect( 320, 360, 20, 300 )
 score.anchorY=496
 scoreTxt = display.newText( "GAS:", 285,358, "Helvetica", 16 )
@@ -33,7 +35,8 @@ scoreTxt = display.newText( "GAS:", 285,358, "Helvetica", 16 )
 
 
 local function updateScore()
-     print(score.height)       score.height = score.height - 5
+     print(score.height)  
+     score.height = score.height - 5
 	   
 end
 
@@ -159,23 +162,36 @@ end
 
 timer.performWithDelay( 800, createZumbi, 0 )
 --Cria pobres inocentes 
+
 local createInocente = function(event)
 	inocente = display.newImage( "chibi.png",math.random(20,_W-20), -25, math.random(8,14)) 
 	physics.addBody( inocente, "cinematic",{ density=2, friction=0, bounce=1} )
 	inocente:setLinearVelocity(0, scrollSpeed*15)
 	inocente.myName="inocente"
-    return zumbi	
+    return inocente	
 end
- timer.performWithDelay( 5000, createInocente, 0 )
- -- e se bater em algum obstaculo?
+
+timer.performWithDelay( 5000, createInocente, 0 )
+
  local function onCollision( event )
-    if ( event.phase == "began" ) then
-        if(event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") then
-			event.object2:removeSelf();
-			score.height=score.height+5
-        end
-    end
- end
+    if (event.phase == "began" ) then
+        if (event.object1.myName=="carroHeroi" and event.object2.myName=="fuel") 
+        	then
+			event.object2:removeSelf( );
+			score.height=score.height+5;
+			elseif  (event.object1.myName=="carroHeroi" and event.object2.myName=="zumbi") 
+			then 
+			pontuacao = pontuacao + 1
+			elseif  (event.object1.myName=="carroHeroi" and event.object2.myName=="inocente") 
+			then 
+			pontuacao = pontuacao -1
+        end 
+       print(pontuacao)
+ end end
+   
+    				
+ 
+    
 
 Runtime:addEventListener( "collision", onCollision )
  --move o carro
@@ -187,7 +203,7 @@ Runtime:addEventListener( "collision", onCollision )
 
 --pára o jogador quando nenhum botão estiver sendo apertado!
 local function stop (event)
- 		if event.phase =="ended" then
+ 		if (event.phase =="ended") then
 		 movimentox = 0;
 		 end
  end
@@ -195,21 +211,17 @@ local function stop (event)
   
 
 Runtime:addEventListener( "enterFrame", move )
---encerra o jogo
- gameOvo=function()
- 	if score.height ==0
- 		
- 		then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 
-		 	
- 		scrollSpeed=0
- 		 gameIsActive = false  
-  		physics.pause()
-  		audio.stop(backgroundMusicChannel)
 
+--encerra o jogo
+ 
+ function gameOvo( )
+ 	if(score.height ==0) 	then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 	scrollSpeed=0
+ 	gameIsActive = false  
+ 	physics.pause()
+  	audio.stop(backgroundMusicChannel)
+ 	end	
+end
 		
-		 end
- end		
 Runtime:addEventListener("enterFrame", gameOvo)
 
-
- 
+
