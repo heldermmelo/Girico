@@ -25,8 +25,42 @@ _H = display.contentHeight; -- Get the height of the screen
 scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
-movimentox=0;-- oc arro permanece sem ir para os lados, se nenhum botão é apertado
-pontuacao=0
+movimentox=0;-- o carro permanece sem ir para os lados, se nenhum botão é apertado
+pontuacao=28
+--[[local Main = {}
+local startButtonListeners = {}
+local showGameView = {}
+local bgScroll = {}
+local movePlayer = {}
+local createBlocks = {}
+local velocidade = {}
+local update = {}
+local alert = {}
+
+function Main()
+  titleBg = display.newImageRect('mainscreen.png', _W, _H)
+  titleBg.x = _W2
+  titleBg.y = _H2
+  
+  playBtn = display.newImage('play.png')
+  playBtn.x = _W2
+  playBtn.y = 120
+  titleView = display.newGroup(titleBg, playBtn)  
+  startButtonListeners('add')
+end
+
+function startButtonListeners(action)
+  if(action == 'add') then
+    playBtn:addEventListener('tap', showGameView)
+  else
+    playBtn:removeEventListener('tap', showGameView)
+  end
+end
+
+function showGameView:tap(e)
+  transition.to(titleView, {time = 300, x = -titleView.height, onComplete = function() startButtonListeners('rmv') 
+    display.remove(titleView) titleView = nil end})
+end--]]
  --Novo Marcador de combustível
 score = display.newRect( 320, 360, 20, 300 )
 score.anchorY=496
@@ -150,7 +184,7 @@ local createFuel = function()
     return fuel 	
 end
 
-timer.performWithDelay( 1900, createFuel, 0 )
+f = timer.performWithDelay( 1900, createFuel, 0 )
 --Cria zumbis
 local createZumbi = function(event)
 	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
@@ -160,7 +194,7 @@ local createZumbi = function(event)
     return zumbi	
 end
 
-timer.performWithDelay( 800, createZumbi, 0 )
+z = timer.performWithDelay( 800, createZumbi, 0 )
 --Cria pobres inocentes 
 
 local createInocente = function(event)
@@ -171,7 +205,7 @@ local createInocente = function(event)
     return inocente	
 end
 
-timer.performWithDelay( 5000, createInocente, 0 )
+i = timer.performWithDelay( 5000, createInocente, 0 )
 
  local function onCollision( event )
     if (event.phase == "began" ) then
@@ -215,13 +249,30 @@ Runtime:addEventListener( "enterFrame", move )
 --encerra o jogo
  
  function gameOvo( )
- 	if(score.height ==0) 	then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 	scrollSpeed=0
+ 	
+	if(score.height ==0) 	then gameOvo= display.newText( "GAME OVO, BRODER", display.contentCenterX, display.contentCenterY, "Helvetica", 30) 	scrollSpeed=0
  	gameIsActive = false  
  	physics.pause()
+	timer.cancel(z)
+	timer.cancel(i)
+	timer.cancel(f)
   	audio.stop(backgroundMusicChannel)
+	if (pontuacao <=25)
+	then
+	display.newText("(Mas tu é ruinzinho hein?)", (display.contentCenterX), (display.contentCenterY - 50),"Helvetica", 20)
+	elseif (pontuacao >= 25 )
+	then
+	display.newText("(VOCÊ É O REI DESTA BIROSCA!!!", (display.contentCenterX), (display.contentCenterY - 50),"Helvetica", 20)
+	end
  	end	
+	
 end
 		
 Runtime:addEventListener("enterFrame", gameOvo)
-
+local options = {
+   width = 60,
+   height = 20,
+   numFrames = 6
+}
+local spriteSheet = graphics.newImageSheet( "spritesheet.png", options )
 
