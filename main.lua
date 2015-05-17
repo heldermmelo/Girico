@@ -6,6 +6,8 @@
 
 -- Your code here
 
+local composer = require("composer")
+local scene = composer.newScene( )
 
 --Oulta a barra de status desde o começo
 display.setStatusBar( display.HiddenStatusBar )
@@ -26,7 +28,7 @@ scrollSpeed = 35; -- Define a velocidade do background.
 speed=0--define a velocidade com que o carro se move para os lados
 
 movimentox=0;-- o carro permanece sem ir para os lados, se nenhum botão é apertado
-pontuacao=28
+pontuacao=0
 --[[local Main = {}
 local startButtonListeners = {}
 local showGameView = {}
@@ -234,7 +236,7 @@ Runtime:addEventListener( "collision", onCollision )
  
  	
 
-
+--
 --pára o jogador quando nenhum botão estiver sendo apertado!
 local function stop (event)
  		if (event.phase =="ended") then
