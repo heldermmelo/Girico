@@ -179,7 +179,7 @@ end
 
 
 local createFuel = function()
-	fuel = display.newImage( "Fuel.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	fuel = display.newImage( "Fuel.png",math.random(20,_W-80), -25, math.random(8,14)) 
 	physics.addBody( fuel, "cinematic",{ density=0, friction=0, bounce=0} )
 	fuel:setLinearVelocity(0, scrollSpeed*15)
 	fuel.myName="fuel"
@@ -189,7 +189,7 @@ end
 f = timer.performWithDelay( 1900, createFuel, 0 )
 --Cria zumbis
 local createZumbi = function(event)
-	zumbi = display.newImage( "zumbi.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	zumbi = display.newImage( "zumbi.png",math.random(20,_W-80), -25, math.random(8,14)) 
 	physics.addBody( zumbi, "cinematic",{ density=2, friction=0, bounce=1} )
 	zumbi:setLinearVelocity(0, scrollSpeed*15)
 	zumbi.myName="zumbi"
@@ -200,7 +200,7 @@ z = timer.performWithDelay( 800, createZumbi, 0 )
 --Cria pobres inocentes 
 
 local createInocente = function(event)
-	inocente = display.newImage( "chibi.png",math.random(20,_W-20), -25, math.random(8,14)) 
+	inocente = display.newImage( "chibi.png",math.random(20,_W-80), -25, math.random(8,14)) 
 	physics.addBody( inocente, "cinematic",{ density=2, friction=0, bounce=1} )
 	inocente:setLinearVelocity(0, scrollSpeed*15)
 	inocente.myName="inocente"
